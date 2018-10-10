@@ -1,9 +1,11 @@
-(custom-set-variables
+N(custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (slack org-jira ox-jira magit ## dash))))
+ '(package-selected-packages
+   (quote
+    (exec-path-from-shell atom-one-dark-theme go-autocomplete flymake-go auto-complete neotree go-mode lsp-go ensime slack org-jira ox-jira magit ## dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -19,7 +21,7 @@
 (setq org-log-done t)
 
 (setq org-agenda-files (list "~/org/work.org"
-"/Users/ccrowe/.org-jira/ADS.org"
+			     "/Users/ccrowe/.org-jira/ADS.org"
                              "~/org/school.org" 
                              "~/org/home.org"))
 
@@ -37,8 +39,44 @@
 
 
 
-(setq jiralib-url "https://jira01.corp.linkedin.com:8443")
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil)
+    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+    (setq reftex-plug-into-AUCTeX t)
 
-(defconst org-jira-progress-issue-flow
-  '(("To Do" . "In Progress"
-    ("In Progress" . "Done"))))
+(add-to-list 'exec-path "/usr/local/bin")
+
+
+(add-hook 'go-mode-hook #'lsp-go-enable)
+
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(ac-config-default)
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
+
+
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
+
+
+(require 'go-autocomplete)
+(require 'auto-complete-config)
+(setenv "GOPATH" "/Users/ccrowe/go/src")
+(add-to-list 'exec-path "/Users/ccrowe/go/bin")
+
+

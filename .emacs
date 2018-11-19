@@ -59,3 +59,10 @@
    minibuffer-local-completion-map))
 
 
+(load-theme 'manoj-dark')
+
+(setq jiralib-url "https://jira01.corp.linkedin.com:8443")
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)

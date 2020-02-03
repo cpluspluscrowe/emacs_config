@@ -82,4 +82,5 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (load-theme 'manoj-dark t)
-(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :height 150)
+
